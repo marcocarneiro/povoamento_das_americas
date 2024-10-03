@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>História V1 - Rotas do povoamento das américas</title>
+
+<link href="css_font/stylesheet.css" rel="stylesheet" type="text/css">
+
+<style>
+
+body,canvas{
+		margin:0;
+		padding:0;
+		overflow-x:hidden;
+		overflow-y:hidden;
+}
+
+
+
+
+	body,canvas, h1{
+		margin:0;
+		padding:0;
+	}
+	
+	body{
+		font-family:'arialnarrow' , Arial, Helvetica, sans-serif;	
+	}
+	
+	#canvas{
+		display:block;
+		position: relative;
+	}
+	
+	#container{
+		position:relative;
+		width:1024px;
+		height:600px;		
+		margin: 0 auto;
+	}
+	
+		
+	.popup{
+		display: none;
+		position:absolute;
+		border-top:#F90 5px solid;
+		background-color:#FF9;
+		padding: 10px;
+		z-index:100;
+		font-family:'arialnarrow' , Arial, Helvetica, sans-serif;
+		color:#333;
+	}
+	
+	
+	.fechar{
+		position:absolute;
+		display:block;
+		right: 10px;
+		top: 10px;
+		width: 20px;
+		background-color:#900;
+		color:#FFF;
+		text-align:center;
+		cursor:pointer;
+	}
+	
+	
+	.botao{
+		display:block;
+		font-size:18px;
+		text-align:center;
+		color:#FFF;
+		font-size:18px;
+		width: 160px;
+		padding:5px;
+		margin: 0 auto;
+		-webkit-border-radius: 10px;
+         border-radius: 10px;
+		 background-clip: padding-box;
+		background-color: #eb471e;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(#eb471e), to(#4f270d));
+		background-image: -webkit-linear-gradient(top, #eb471e, #4f270d);
+		background-image:    -moz-linear-gradient(top, #eb471e, #4f270d);
+		background-image:      -o-linear-gradient(top, #eb471e, #4f270d);
+		background-image:         linear-gradient(to bottom, #eb471e, #4f270d);
+		border:#5E1313 1px solid;
+		cursor: pointer;
+	}
+	
+		
+	
+	#showMapaCompleto, #showReiniciar{
+		position:absolute;
+	}
+	
+	#msgInicio, #msgRotas, #hipotese1, #hipotese2, #showMapaCompleto{
+		display: none;
+		width:300px;
+		top:90px;
+		left: 50%;
+		margin-left: -150px;		
+	}
+	#msgInicio p, #msgRotas p, #hipotese1 p, #hipotese2 p{
+		font-size:18px;
+	}
+	
+	#msgRotas{
+		height:160px;
+	}
+	#msgRotas .botao{
+		width: 128px;
+		margin: 0;
+		margin-left:5px;
+		margin-right:5px;
+		float:left;
+		font-size:14px;
+	}
+	
+	#hipotese1 p, #hipotese2 p{
+		text-align: center;
+	}
+	
+	#msgSitios{
+		width:300px;
+		top: 20px;
+		left: 10px;
+		background-color:#ECEC00;
+	}
+	#msgSitios p{
+		text-align: center;
+		font-size: 18px;
+	}
+	
+	#showReiniciar{
+		display: none;
+		width:auto;
+		/*top: 180px;*/
+		top: 240px;
+		left: 10px;
+		/*left: 330px;*/
+	}
+	
+	
+	/* Caixa de imagens */
+	.popVertical{
+		position:absolute;
+		width: 600px;
+		height: 520px;
+		left: 212px;
+		top: 10px;
+		overflow:hidden;
+	}
+	.popVertical img{
+		display:block;
+		height: 480px;
+	}
+	.popHorizontal{
+		position:absolute;
+		width: 640px;
+		height: 520px;		
+		left: 192px;
+		top: 20px;
+		overflow:hidden;
+	}
+	.popHorizontal img{
+		height: 340px;
+	}
+	
+	figure{
+		position:relative;
+		display:block;
+		/*height: 90%;*/
+		float:left;
+		margin: 0 5px 0 20px;
+		padding: 0;
+	}
+	figcaption{
+		position:absolute;
+		display:block;
+		left:-20px;
+		bottom: -5px;
+		font-size:12px;
+		font-weight:bold;		
+  		-webkit-transform: rotate(-90deg); 
+     	-moz-transform: rotate(-90deg); 
+      	-ms-transform: rotate(-90deg); 
+      	-o-transform: rotate(-90deg); 
+        transform: rotate(-90deg); 
+		
+		transform-origin: 0% 0%;
+		-ms-transform-origin: 0% 0%;
+		-webkit-transform-origin: 0% 0%;
+	}
+	
+	.popHorizontal figure{
+		float: none;
+	}
+	
+	.popVertical h1, .popHorizontal h1{
+		margin:0 0 2px 0;
+		font-size: 2em;		
+	}
+	
+	
+	.popHorizontal p{
+		width:600px;
+		padding: 0 0 0 20px;
+		margin: 10px 0 0 0;
+	}
+	
+	
+	/* aviso de informação - ajuda(?) */
+	#tampaPreta{
+		display: none;
+		position:absolute;
+		top: 0;
+		left: 0;
+		z-index:300;
+		width: 2500px;
+		height: 2000px;
+		background-color:#000;
+		background: rgba(0, 0, 0, 0.90);
+	}
+	#avisoInfo{
+		display: block;
+		position:absolute;
+		z-index:500;
+		width: 300px;
+		height: 200px;
+		top: -1000px;
+		left: 362px;
+	}
+    #avisoInfo .fechar{
+		position:absolute;
+		right: 0;
+		top: -20px;
+	}
+	#avisoInfo h2{
+		
+	}
+	##avisoInfo p{
+		
+	}
+	
+	
+</style>
+
+<script src="js/easeljs-0.6.0.min.js"></script>
+<script src="js/tweenjs-0.4.0.min.js"></script>
+<script src="js/movieclip-0.6.0.min.js"></script>
+<script src="js/preloadjs-0.3.0.min.js"></script>
+<script src="js/povoamentoAmerica.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/funcoes.js"></script>
+</head>
+
+<body onload="init();" style="background-color:#C7EAFB">
+ <div id="container">
+	<canvas id="canvas" width="1024" height="600" style="background-color:#C7EAFB;"></canvas>
+    
+    <div id="msgInicio" class="popup">
+    	<p">De acordo com diversos historiadores, os primeiros seres humanos surgiram na África e posteriormente se espalharam pelo planeta.</p>
+        <span id="continuar" class="botao">Continuar</span>                
+    </div>
+    
+    <div id="msgRotas" class="popup">
+    	<p>Há diversas hipóteses de como o ser humano chegou ao continente americano. <br>
+As principais são:</p>
+		<span id="rotaPacifico" class="botao">Pelo Oceano Pacífico</span>
+        <span id="rotaBering" class="botao">Pelo Estreito de Bering</span>
+    </div>
+    
+    <div id="hipotese1" class="popup">
+    	<p>Veja a segunda hipótese:</p>
+		<span id="verRotaBering" class="botao">Pelo Estreito de Bering</span>
+    </div>
+    <div id="hipotese2" class="popup">
+    	<p>Veja a segunda hipótese:</p>
+		<span id="verRotaPacifico" class="botao">Pelo Oceano Pacífico</span>
+    </div>
+    
+    <div id="showMapaCompleto">
+    	<span id="btShowMapaCompleto" class="botao">Ver mapa completo</span>
+    </div>
+    
+    <div id="showReiniciar">
+    	<span id="btShowReiniciar" class="botao">Reiniciar</span>
+    </div>
+    
+    <div id="msgSitios" class="popup">
+    	<p>Clique nos pontos e conheça alguns sítios arqueológicos.</p>              
+    </div>
+    
+    <div id="hadar" class="popup popVertical">
+    	<span class="fechar">X</span>
+    	<h1>Hadar</h1>
+        <figure>
+        <img src="images/imgHadar.jpg">
+        <figcaption>Science Photo Library/Latinstock</figcaption>
+        </figure>
+        <p>O esqueleto batizado de Lucy foi encontrado em um sítio arqueológico na região de Hadar, na atual Etiópia, em 1974. A datação indicou que a idade de Lucy é de 3,2 milhões de anos e que ela pertence à espécie <em>Australopithecus afarensis</em>.
+Nesta imagem vemos os ossos fossilizados de Lucy.</p>    
+    </div>
+    
+    <div id="toca" class="popup popHorizontal">
+    	<span class="fechar">X</span>
+    	<h1>Toca do Boqueirão da Pedra Furada</h1>
+        <figure>
+        	<img src="images/imgToca.jpg">
+            <figcaption>Alamy/Other Images</figcaption>
+         </figure>
+        <p>Localiza-se no atual estado do Piauí, no Parque Nacional da Serra da Capivara. A equipe de estudiosos é coordenada por Niède Guidon, arqueóloga franco-brasileira. Os vestígios da presença humana encontrados ali (pinturas rupestres, instrumentos de pedra lascada, cerâmica e restos de fogueiras) podem datar de 40 mil a 48 mil anos. Vemos, nesta fotografia de 2010, turistas visitando aglomerados de rocha no local.</p>   
+    </div>
+    
+    <div id="aramis" class="popup popVertical">
+    	<span class="fechar">X</span>
+    	<h1>Aramis</h1>
+        <figure>
+        <img src="images/imgAramis.jpg">
+        <figcaption>David L. Brill/NYT/Latinstock</figcaption>
+        </figure>
+        <p>Há muitos sítios arqueológicos no continente africano, onde equipes de pesquisa encontraram (e vêm encontrando) os mais antigos exemplares de fósseis do mundo. Na região de Aramis (na atual Etiópia) foi encontrado, por exemplo, um esqueleto da espécie <em>Ardipthecus ramidus</em>, de 4,4 milhões de anos de idade. Trata-se de uma fêmea que teria aproximadamente 1,20 m de altura e 50 kg. Nesta fotografia, vemos a reconstituição de uma das mãos de <strong>Ardi</strong>, como ficou conhecido o fóssil de homínideo mais antigo encontrado até agora.</p> 
+    </div>
+    
+    
+    <div id="lapaVermelha" class="popup popVertical">
+    	<span class="fechar">X</span>
+    	<h1>Lapa Vermelha</h1>
+        <figure>
+        <img src="images/imgLapaVermelha.jpg">
+        <figcaption>Antonio Scorza/AFP</figcaption>
+        </figure>
+        <p>Localizado no atual estado de Minas Gerais. Ali, as pesquisas são coordenadas pela equipe do antropólogo brasileiro Walter Neves. Nesse sítio foi encontrado o fóssil mais antigo em território brasileiro, datado de 11.500 anos, uma mulher batizada de Luzia. Nesta fotografia, vemos a reconstituição do crânio de Luzia, que está exposto no Museu Histórico Nacional, no Rio de Janeiro.</p> 
+    </div>
+    
+    
+    <div id="pedraPintada" class="popup popHorizontal">
+    	<span class="fechar">X</span>
+    	<h1>Pedra Pintada</h1>
+        <figure>
+        <img src="images/imgPedraPintada.jpg">
+        <figcaption>Rogério Reis/Pulsar Imagens</figcaption>
+        </figure>
+        <p>Sítio localizado em Monte Alegre, no atual estado do Pará. As escavações realizadas no local encontraram pinturas rupestres (como a vista nesta fotografia, de 2004), ossos, dentes e instrumentos de pedra lascada que datam de 11.200 anos.</p> 
+    </div>
+    
+    <div id="clovis" class="popup popHorizontal">
+    	<span class="fechar">X</span>
+    	<h1>Clóvis</h1>
+        <figure>
+        <img src="images/imgClovis.jpg">
+        <figcaption>Carolina Biological/Visuals Unlimited/Corbis/Latinstock</figcaption>
+        </figure>
+        <p>Sítio localizado no atual estado do Novo México, nos Estados Unidos. Os instrumentos de caça encontrados ali, especialmente pontas afiadas de pedra lascada, datam de 10 a 11 mil anos atrás e ficaram conhecidos como ponta Clóvis (como esta, fotografada em 2010).</p>
+    </div>
+    
+    <div id="tampaPreta"></div>
+    <div id="avisoInfo" class="popup">
+    	<span class="fechar">X</span>
+    	<h2>Ajuda</h2>
+        <p>Siga as instruções para visualizar as rotas do povoamento das Américas. <br>
+        Depois, toque nos pontos do mapa para conhecer alguns sítios arqueológicos.</p>    
+    </div>
+    
+ </div>
+</body>
+</html>
